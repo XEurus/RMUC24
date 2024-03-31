@@ -1,0 +1,318 @@
+<?xml version="1.0"?>
+<robot name="mowen_4wd_mecanum" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="PI" value="3.1415926535897931" />
+
+  <xacro:property name="wheel_radius" value="0.050" />
+  <xacro:property name="wheel_width" value="0.0505" />
+
+  <material name="yellow"><color rgba="0.8 0.8 0.0 1.0" /></material>
+  <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+  <material name="dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
+  <material name="light_grey"><color rgba="0.4 0.4 0.4 1.0" /></material>
+
+  <link name="base_footprint"></link>
+
+  <joint name="base_link_joint" type="fixed">
+    <origin xyz="0 0 0.05" rpy="0 0 0" />
+    <parent link="base_footprint"/>
+    <child link="base_link" />
+  </joint>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mowen_4wd_mecanum_description/meshes/mowen_base_link.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="dark_grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://mowen_4wd_mecanum_description/meshes/mowen_base_link_collision.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <!-- Inertia from CAD model, filled box assumption -->
+      <origin xyz="-0.01103 0 0.002" rpy="0 0 0"/>
+      <mass value="2.844"/>
+      <inertia
+        ixx="0.018819942" ixy="0" ixz="-0.000101519"
+        iyy="0.057333716" iyz="0"
+        izz="0.074201740"/>
+    </inertial>
+  </link>
+
+  <joint name="upper_left_wheel_shaft_joint" type="fixed">
+    <origin xyz="0.150 0.108 0.0" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="upper_left_wheel_shaft" />
+  </joint>
+
+  <link name="upper_left_wheel_shaft">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mowen_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://mowen_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0.01221 0" rpy="0 0 0"/>
+      <mass value="0.055"/>
+      <inertia
+        ixx="0.000021370" ixy="0" ixz="0"
+        iyy="0.000009966" iyz="0"
+        izz="0.000021370"/>
+    </inertial>
+  </link>
+
+  <joint name="lower_left_wheel_shaft_joint" type="fixed">
+    <origin xyz="-0.150 0.108 0.0" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="lower_left_wheel_shaft" />
+  </joint>
+
+  <link name="lower_left_wheel_shaft">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mowen_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://mowen_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0.01221 0" rpy="0 0 0"/>
+      <mass value="0.055"/>
+      <inertia
+        ixx="0.000021370" ixy="0" ixz="0"
+        iyy="0.000009966" iyz="0"
+        izz="0.000021370"/>
+    </inertial>
+  </link>
+
+  <joint name="upper_right_wheel_shaft_joint" type="fixed">
+    <origin xyz="0.150 -0.108 0.0" rpy="${PI} 0 0" />
+    <parent link="base_link"/>
+    <child link="upper_right_wheel_shaft" />
+  </joint>
+
+  <link name="upper_right_wheel_shaft">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mowen_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://mowen_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0.01221 0" rpy="0 0 0"/>
+      <mass value="0.055"/>
+      <inertia
+        ixx="0.000021370" ixy="0" ixz="0"
+        iyy="0.000009966" iyz="0"
+        izz="0.000021370"/>
+    </inertial>
+  </link>
+
+  <joint name="lower_right_wheel_shaft_joint" type="fixed">
+    <origin xyz="-0.150 -0.108 0.0" rpy="${PI} 0 0" />
+    <parent link="base_link"/>
+    <child link="lower_right_wheel_shaft" />
+  </joint>
+
+  <link name="lower_right_wheel_shaft">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mowen_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://mowen_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0.01221 0" rpy="0 0 0"/>
+      <mass value="0.055"/>
+      <inertia
+        ixx="0.000021370" ixy="0" ixz="0"
+        iyy="0.000009966" iyz="0"
+        izz="0.000021370"/>
+    </inertial>
+  </link>
+
+  <joint name="upper_left_wheel_joint" type="continuous">
+    <origin xyz="0 0.042 0" rpy="0 0 0" />
+    <parent link="upper_left_wheel_shaft"/>
+    <child link="upper_left_wheel" />
+    <axis xyz="0 1 0"/>
+  </joint>
+  
+  <link name="upper_left_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mowen_4wd_mecanum_description/meshes/mecanum_wheel_left.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="light_grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <mass value="0.3844"/>
+      <!-- Inertia based on cylinder -->
+      <inertia
+        ixx="0.000324824" ixy="0" ixz="0"
+        iyy="0.000480000" iyz="0"
+        izz="0.000324824"/>
+    </inertial>
+  </link>
+
+  <joint name="lower_left_wheel_joint" type="continuous">
+    <origin xyz="0 0.042 0" rpy="0 0 0" />
+    <parent link="lower_left_wheel_shaft"/>
+    <child link="lower_left_wheel" />
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="lower_left_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mowen_4wd_mecanum_description/meshes/mecanum_wheel_right.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="light_grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <mass value="0.3844"/>
+      <!-- Inertia based on cylinder -->
+      <inertia
+        ixx="0.000324824" ixy="0" ixz="0"
+        iyy="0.000480000" iyz="0"
+        izz="0.000324824"/>
+    </inertial>
+  </link>
+
+  <joint name="upper_right_wheel_joint" type="continuous">
+    <origin xyz="0 0.042 0" rpy="0 0 0" />
+    <parent link="upper_right_wheel_shaft"/>
+    <child link="upper_right_wheel" />
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="upper_right_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mowen_4wd_mecanum_description/meshes/mecanum_wheel_right.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="light_grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <mass value="0.3844"/>
+      <!-- Inertia based on cylinder -->
+      <inertia
+        ixx="0.000324824" ixy="0" ixz="0"
+        iyy="0.000480000" iyz="0"
+        izz="0.000324824"/>
+    </inertial>
+  </link>
+  
+  <joint name="lower_right_wheel_joint" type="continuous">
+    <origin xyz="0 0.042 0" rpy="0 0 0" />
+    <parent link="lower_right_wheel_shaft"/>
+    <child link="lower_right_wheel" />
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="lower_right_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mowen_4wd_mecanum_description/meshes/mecanum_wheel_left.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="light_grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <mass value="0.3844"/>
+      <!-- Inertia based on cylinder -->
+      <inertia
+        ixx="0.000324824" ixy="0" ixz="0"
+        iyy="0.000480000" iyz="0"
+        izz="0.000324824"/>
+    </inertial>
+  </link>
+
+
+  <!-- Include controller plugin for Gazebo -->
+  <xacro:include filename="$(find mowen_4wd_mecanum_description)/urdf/mowen_4wd_mecanum.gazebo" />
+
+
+    <xacro:include filename="$(find mowen_4wd_mecanum_description)/urdf/lidar_gazebo.xacro"/>
+	
+    <xacro:property name="lidar_offset_x" value="0.152" />
+    <xacro:property name="lidar_offset_y" value="0" />
+    <xacro:property name="lidar_offset_z" value="0.042" />
+
+    <robot_base/>
+
+    <!-- lidar -->
+    <joint name="lidar_joint" type="fixed">
+        <origin xyz="${lidar_offset_x} ${lidar_offset_y} ${lidar_offset_z}" rpy="0 0 0" />
+        <parent link="base_link"/>
+        <child link="laser_link"/>
+    </joint>
+
+    <xacro:rplidar prefix="laser"/>
+
+
+</robot>

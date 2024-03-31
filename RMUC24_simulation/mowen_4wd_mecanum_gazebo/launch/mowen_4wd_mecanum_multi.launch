@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="use_sim_time" default="true" />
+  <arg name="gui" default="true" />
+  <arg name="headless" default="false" />
+  <!-- <arg name="world_name" default="$(find mowen_gazebo)/worlds/mowen_4wd_mecanum.world" /> -->
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="debug" value="0" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="use_sim_time" value="$(arg use_sim_time)" />
+    <arg name="headless" value="$(arg headless)" />
+    <!-- <arg name="world_name" value="$(arg world_name)" /> -->
+    <arg name="paused" value="false"/>
+  </include>
+  
+  <!-- spawn "nexus1" robot -->
+  <include file="$(find mowen_4wd_mecanum_gazebo)/launch/spawn_one_mowen_4wd_mecanum.launch">
+    <arg name="robot_name" value="nexus1" />
+    <arg name="pose_x" value="0" />
+    <arg name="pose_y" value="0" />
+  </include>
+
+  <!-- spawn "nexus2" robot -->
+  <include file="$(find mowen_4wd_mecanum_gazebo)/launch/spawn_one_mowen_4wd_mecanum.launch">
+    <arg name="robot_name" value="nexus2" />
+    <arg name="pose_x" value="1" />
+    <arg name="pose_y" value="1" />
+  </include>
+
+</launch>

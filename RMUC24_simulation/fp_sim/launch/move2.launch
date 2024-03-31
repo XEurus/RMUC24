@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+
+ <param name="/use_sim_time" value="true" />
+ 
+ <arg name="map" default="$(find fp_sim)/maps/map.yaml"/>
+ <!-- 运行地图服务器，并且加载设置的地图-->
+ <node name="map_server" pkg="map_server" type="map_server" args="$(arg map)"/>
+ 
+ <include file="$(find fp_sim)/launch/move_base.launch" />
+ <include file="$(find fp_sim)/launch/amcl.launch" />
+    <remap from="cmd_vel" to="cmd_vel"/>
+    <remap from="odom" to="odom"/>
+    <remap from="scan" to="/scan"/>
+    <!--remap from="map" to="rtabmap/map"/-->
+
+
+</launch>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+<!--include file="$(find nav)/launch/LDS-50C-3.launch" /-->
+  <param name="/use_sim_time" value="false" />
+  <!-- Gmapping -->
+  <include file="$(find nav)/launch/hector_slam.launch" />
+  
+ <node pkg="tf2_ros" type="static_transform_publisher" name="baselink_to_laser" args="0.25 -0.18 0 0 0 0 base_link laser " />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 odom base_link " /> 
+
+ <!-- RViz >
+  <node if="$(arg rviz)" pkg="rviz" type="rviz" /-->
+
+
+</launch>

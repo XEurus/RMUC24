@@ -1,0 +1,43 @@
+﻿controller_frequency: 5.0 #8.0
+recovery_behavior_enabled: false
+clearing_rotation_allowed: false
+
+TrajectoryPlannerROS:
+
+   max_vel_x: 0.20 #0.35 0.25
+   min_vel_x: 0.1 #0.05
+   max_vel_y: 0.0  
+   min_vel_y: 0.0
+   max_vel_theta: 0.15  #最大人最大转动速度，单位rad/s
+   min_vel_theta: -0.15 #机器人最小旋转速度
+   min_in_place_vel_theta: 0.15 #机器人最小原地旋转速度 0.3
+   escape_vel: -0.15 #机器人的逃离速度，即背向相反方向行走速度，单位是m/s
+   acc_lim_x: 0.3 #在x方向上最大的线加速度，单位是m/s^2 2.0
+   acc_lim_y: 0.0 
+   acc_lim_theta: 0.2 #最大角加速度 rad/s^2 3.2 1.2
+   holonomic_robot: false #除非拥有一个全方位的机器人，否则设置为false
+   yaw_goal_tolerance: 0.2 #0.3 #接近目标方向（就弧度来说）允许的误差（rad），此值太小会造成机器人在目标附近震荡
+   xy_goal_tolerance: 0.2   #表示接近目标允许的误差（m），值不能小于地图的分辨率
+   latch_xy_goal_tolerance: false
+  
+   pdist_scale: 0.6 #1.5 #紧贴全局路径比到达目标的相对重要性，如果此值比gdist_scale大，那么机器人会更紧靠全局路径行走
+   gdist_scale: 1 #0.4 #到达目标比紧靠全局路径的相对重要性，如果此值比pdist_scale大，那么机器人会采取任意路径优先到达目标
+   meter_scoring: true #gdist_scale和pdist_scale参数是否假设goal_distance和path_distance以米或者单元来表达
+   heading_lookahead: 0.35
+   heading_scoring: false
+   heading_scoring_timestep: 0.8
+   occdist_scale: 0.1 #控制器尝试避开障碍物的权重
+
+   oscillation_reset_dist: 0.05
+   publish_cost_grid_pc: true
+   prune_plan: true
+
+   sim_time: 4.0   #1.0 #规划器能看到未来多少秒
+   sim_granularity: 0.025
+   angular_sim_granularity: 0.025
+   vx_samples: 25 
+   vy_samples: 0  
+   vtheta_samples: 40 #40
+   
+   dwa: true #当模拟轨迹走向未来，是否使用动态窗口法
+   simple_attractor: false

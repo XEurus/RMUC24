@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+	<include file="$(find mowen_4wd_mecanum_description)/launch/mowen_4wd_mecanum_description.launch" />
+	
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find mowen_4wd_mecanum_description)/urdf.rviz" required="true" />
+</launch>

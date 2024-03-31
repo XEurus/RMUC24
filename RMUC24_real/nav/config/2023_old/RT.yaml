@@ -1,0 +1,117 @@
+TebLocalPlannerROS:
+   
+ # Trajectory
+  
+ teb_autosize: True # 是否自动调整轨迹的时间步长
+ dt_ref: 0.2 # 参考时间步长，自动调整步长时会尽量接近该值
+ dt_hysteresis: 0.05 #允许改变的时域解析度的浮动范围， 一般为 dt_ref 的 10% 左右
+ max_samples: 500
+ global_plan_overwrite_orientation: True #覆盖全局路径中局部路径点的朝向
+ allow_init_with_backwards_motion: True #允许在开始时想后退来执行轨迹
+ max_global_plan_lookahead_dist: 5.0 # 全局路径的最大前瞻距离
+ global_plan_viapoint_sep: 3 #从全局计划中提取的每两个连续通过点之间的最小间隔[如果为负：禁用]
+ global_plan_prune_distance: 1 
+ exact_arc_length: False #
+ feasibility_check_no_poses: 5 # 检查轨迹可行性时考虑的姿态数量
+ publish_feedback: False #发布包含完整轨迹和活动障碍物列表的规划器反馈
+    
+ # Robot
+         
+ max_vel_x: 5 # 速度约束
+ max_vel_x_backwards: 5 # 最大倒车速度。将此速度设置为0或者负数将导致错误。禁止倒车应在penalty部分将前向行驶的权重设置得极高
+ max_vel_y: 5 # y轴方向，即垂直于车辆正对方向的速度。对阿克曼底盘的车辆没有意义
+ max_vel_theta: 5
+ acc_lim_x: 5 #加速度约束
+ acc_lim_y: 5
+ acc_lim_theta: 5
+ min_turning_radius: 0.0 # omni-drive robot (can turn on place!) 最小转弯半径 
+ footprint_model: # 机器人的足迹模型类型，这里是"point"，则把机器人看做质点
+   type: "point"
+
+ # GoalTolerance
+    
+ xy_goal_tolerance: 0.15
+ yaw_goal_tolerance: 0.1
+ free_goal_vel: True # False 自由目标速度。设为False时，车辆到达终点时的目标速度为0
+ complete_global_plan: True #
+    
+ # Obstacles
+    
+ min_obstacle_dist: 0.25 # This value must also include our robot radius, since footprint_model is set to "point".
+                        # 机器人与障碍物之间的最小距离，包括机器人足迹半径
+ inflation_dist: 0.3 # 障碍物膨胀的距离，用于将障碍物模型膨胀以充分考虑机器人的安全通行
+ include_costmap_obstacles: True # 是否考虑代价地图中的障碍物。代价地图是一种根据环境特性对机器人进行路径规划时引入的一种辅助信息。
+ costmap_obstacles_behind_robot_dist: 1.0 # 障碍物与机器人后方的最小距离。机器人后方障碍物的距离，小于此值则将障碍物忽略。
+ obstacle_poses_affected: 15 #因为障碍物而受到影响的poses数量（基于距离障碍物最近的pose，向两边扩展的点数），
+                            #用于将障碍物对机器人轨迹的影响扩展到多个点
+ dynamic_obstacle_inflation_dist: 0.3 # 动态障碍物膨胀的距离
+ include_dynamic_obstacles: True # 是否考虑动态障碍物
+ 
+ costmap_converter_plugin: "" # costmap_converter插件的名称，用于将ROS Costmap转换为TEB优化器需要的数据类型。
+ costmap_converter_spin_thread: True # 是否在单独的线程中运行costmap_converter，如果为False，那么在同一个线程中运行costmap_converter
+ costmap_converter_rate: 5 # costmap_converter的更新频率，即执行一次代价地图转换的频率。
+
+ # Optimization  # 优化相关的参数
+    
+ no_inner_iterations: 2 # 内部优化迭代次数，用于调节TEB优化器的收敛速度。
+ no_outer_iterations: 1 # 外部优化迭代次数，用于调节TEB优化器的收敛速度。
+ optimization_activate: True #是否开启优化器，如果为False，则TEB局部规划器将不进行优化操作。
+ optimization_verbose: False # 是否输出详细的优化信息，如果为True，则输出详细的调试信息，否则只输出关键信息。
+ penalty_epsilon: 0.1 # TEB优化器中的惩罚项系数epsilon，用于调节惩罚项的严格程度。
+ obstacle_cost_exponent: 4 # 障碍物代价项中的幂次方，用于调节障碍物对机器人轨迹的影响程度。
+ weight_max_vel_x: 2 # x轴方向最大速度的权重，用于调节机器人在x轴方向的移动速度。
+ weight_max_vel_y: 2 # y轴方向最大速度的权重，用于调节机器人在y轴方向的移动速度。 
+ weight_max_vel_theta: 1 # 控制机器人角速度的权重。
+ weight_acc_lim_x: 1 #
+ weight_acc_lim_y: 1 #
+ weight_acc_lim_theta: 1 #
+ weight_kinematics_nh: 1 # WE HAVE A HOLONOMIC ROBOT, JUST ADD A SMALL PENALTY
+ weight_kinematics_forward_drive: 1 #
+ weight_kinematics_turning_radius: 1 #
+ weight_optimaltime: 1 # must be > 0 控制机器人到达目标点所需时间的权重。
+ weight_shortest_path: 0 # 控制机器人运动路径的长度的权重。
+ weight_obstacle: 100 #
+ weight_inflation: 0.2 # 控制障碍物膨胀的权重
+ weight_dynamic_obstacle: 10 # 控制动态障碍物的权重
+ weight_dynamic_obstacle_inflation: 0.2 # 控制动态障碍物膨胀的权重。
+ weight_viapoint: 1 # 控制机器人经过中间点的权重。
+ weight_adapt_factor: 2 # 控制权重调整因子的权重。
+
+ # Homotopy Class Planner
+ #Homotopy Class Planner是一种基于homotopy类的全局路径规划器，主要用于解决非全局最优的路径规划问题。下面是其中涉及的参数的详细解释
+
+ enable_homotopy_class_planning: True # 是否启用Homotopy Class Planner。如果设置为False，则将使用简单的A*规划器。
+ enable_multithreading: True # 是否启用多线程。如果设置为True，则规划器将在多个线程中运行，以加快路径规划的速度。
+ max_number_classes: 3 # 规划器将为每个目标生成的拓扑路径数目。当这个值增加时，路径的多样性和计算量也将增加。默认值为4。
+ selection_cost_hysteresis: 1.0 # 如果路径的代价（cost）与最佳路径的代价之间的差距小于此值，则保留路径。如果大于此值，则丢弃路径。
+ selection_prefer_initial_plan: 0.9 # 选择代价相等的路径时，是否优先选择原始路径的概率。
+ selection_obst_cost_scale: 1.0 # 障碍物代价因子的缩放比例。
+ selection_alternative_time_cost: False # 是否考虑替代时间代价。
+ 
+ roadmap_graph_no_samples: 15 #当计算拓扑地图（topological map）时，规划器将在地图上生成的采样点数。 在生成h-signatures时用于抽样的点数。
+ #当这个值增加时，拓扑地图的精度也将增加。默认值为15。
+ roadmap_graph_area_width: 5 # 道路网络图的区域宽度，单位为米
+ roadmap_graph_area_length_scale: 1.0 # 道路网络图的区域长度缩放系数。这个参数控制网络图的长度，值越大则图形越窄长，值越小则图形越短胖。
+ h_signature_prescaler: 0.5 # 计算h-signature（一个特征向量）时的缩放系数。
+ # h-signature用于表示障碍物的几何形状。该参数的值控制特征向量的尺度，值越小则表示的形状精细度越高。
+ h_signature_threshold: 0.1 # h-signature的阈值。在同伦类路径规划中，
+ # 如果两条路径的h-signature非常接近，则可以认为这两条路径是相似的，可以在它们之间切换。
+ obstacle_heading_threshold: 0.45 # 障碍物朝向变化的阈值，用于同伦类路径规划。当两条路径的障碍物朝向变化超过该阈值时，认为这两条路径不同类。
+ switching_blocking_period: 0.1 # 切换同伦类的阻塞时间。当路径规划频繁切换同伦类时，为防止过于频繁的切换，可以设置一个阻塞时间。
+ viapoints_all_candidates: True # 是否将所有经过的路径点作为候选路径点。当启用多条路径规划时，每一条路径都会经过一些路径点。
+                                #当该参数为True时，所有的路径点都将被考虑作为候选路径点。
+ delete_detours_backwards: True # 是否删除回退路径。当规划出的路径需要回退时，可以选择删除回退路径，只保留前进路径。
+ max_ratio_detours_duration_best_duration: 3.0 # 回退路径和最佳路径持续时间的最大比值。当回退路径的持续时间超过最佳路径的持续时间的该参数倍时，将删除回退路径
+ visualize_hc_graph: False # 是否可视化同伦类图。该参数为True时，将在RViz中可视化同伦类图
+ visualize_with_time_as_z_axis_scale: False # 时间作为z轴比例尺的可视化系数。当该参数为True时，RViz中显示的同伦类图的z轴比例尺将表示时间。
+
+# Recovery
+ 
+ shrink_horizon_backup: True # 当规划器检测到系统异常，允许缩小时域规划范围 当遇到异常情况（如机器人卡住无法前进）时，可以缩小规划范围来解决问题
+ shrink_horizon_min_duration: 8  #缩小规划范围的最小持续时间。当缩小规划范围时，必须保证缩小后的范围能够容纳机器人并找到有效的路径。
+                                  #该参数定义了缩小规划范围的最小持续时间。 ！！
+ oscillation_recovery: True # 是否启用振荡恢复机制。当机器人出现来回摆动的现象时，可以启用振荡恢复机制来解决问题。
+ oscillation_v_eps: 0.1 # 振荡判断的线速度阈值。当机器人的线速度小于该阈值时，认为机器人出现振荡。
+ oscillation_omega_eps: 0.1 # 振荡判断的角速度阈值。当机器人的角速度小于该阈值时，认为机器人出现振荡。
+ oscillation_recovery_min_duration: 5 # 振荡恢复机制的最小持续时间。当启用振荡恢复机制时，必须保证机器人持续一段时间后仍然保持稳定，才能认为恢复成功 ！！
+ oscillation_filter_duration: 10 #振荡滤波器的窗口大小。当机器人出现振荡时，可以使用滤波器平滑机器人的运动，该参数定义了滤波器的窗口大小。

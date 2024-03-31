@@ -1,0 +1,26 @@
+
+  <!--目前ROS中可以使用的global planner主要包括：A*和Dijkstra。-->
+  <!--local planner主要有：dwa、trajectory、teb和eband等。-->
+
+
+<launch>
+<param name="/use_sim_time" value="false" />
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+
+    <rosparam file="$(find f1tenth_simulator)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find f1tenth_simulator)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find f1tenth_simulator)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find f1tenth_simulator)/config/global_costmap_params.yaml" command="load" />
+    <!--
+    <rosparam file="$(find mbot_navigation)/config/base_local_planner_params.yaml" command="load" />
+    -->
+    <rosparam file="$(find f1tenth_simulator)/config/teb_local_planner_params.yaml" command="load" />
+	    <!--param name="controller_frequency" value="2.0"/> 
+    <param name="controller_patiente" value="2.0"/
+    
+      <param name="base_global_planner" value="global_planner/GlobalPlanner"/> 
+    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />-->
+
+  </node>
+  
+</launch>

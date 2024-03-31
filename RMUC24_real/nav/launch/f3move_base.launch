@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="/use_sim_time" value="false" />
+  <!--
+  node pkg="tf2_ros" type="transform_listener" name="transform_listener" respawn="false" output="screen"/-->
+  
+ <node pkg="tf2_ros" type="static_transform_publisher" name="c2b" args="0 0.10 0 -1.57 -1.57 0 camera_imu_optical_frame base_link " />
+ 
+  <node pkg="tf2_ros" type="static_transform_publisher" name="baselink_to_laser" args="0 -0.10 0 0 0 0 base_link laser " />
+<!--node pkg="tf2_ros" type="static_transform_publisher" name="m2o" args="0 0 0 0 0 0 map camera_odom_frame " /-->
+
+ <!--arg name="map" default="/home/dji/move/src/rm/nav/map/test.yaml" /-->
+  <arg name="map" default="/home/dji/RMUC24/src/nav/map/202401.yaml" />
+    <!-- 运行地图服务器，并且加载设置的地图-->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map)"/>
+    
+<include file="$(find nav)/launch/amcl.launch" />  
+<include file="$(find nav)/launch/t265.launch" />
+<include file="$(find nav)/launch/LDS-50C-3.launch" />
+<include file="$(find nav)/launch/move2_base_new.launch" />
+
+</launch> 

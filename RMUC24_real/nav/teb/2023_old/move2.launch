@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+ <param name="/use_sim_time" value="true" />
+<include file="$(find slam_bot)/launch/move_base_new.launch" />
+<include file="$(find slam_bot)/launch/amcl.launch" />
+    <remap from="cmd_vel" to="cmd_vel"/>
+    <remap from="odom" to="odom"/>
+    <remap from="scan" to="slam_bot/laser/scan"/>
+    <!--remap from="map" to="rtabmap/map"/-->
+
+
+</launch>

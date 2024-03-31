@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+<!--param name="/use_sim_time" value="true" /-->
+  <!-- 设置launch文件的参数 --> 
+  <arg name="world" default="empty"/> 
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find fp_sim)/world/2024RMUC/20245.world"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+
+<!-- Load robot description-->
+  <include file="$(find mowen_4wd_mecanum_description)/launch/mowen_4wd_mecanum_description.launch" />
+
+  <!--Spawn the robot -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -model mowen_4wd_mecanum -param robot_description -x 3 -y 3.2 -z 0.2" />
+
+
+
+</launch>
