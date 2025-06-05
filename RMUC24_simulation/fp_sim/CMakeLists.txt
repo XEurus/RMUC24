@@ -29,8 +29,3 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(navigation_goal src/navigation_goal.cpp)
-
-target_link_libraries(navigation_goal ${catkin_LIBRARIES})
-
-

@@ -4,3 +4,4 @@ origin: [-11.5037, -14.3542, 0.0]
 negate: 0
 occupied_thresh: 0.65
 free_thresh: 0.196
+# 来自东南大学场地的地图 使用cartographer所以有pbstream格式文件存留

@@ -1,0 +1,16 @@
+obstacle_layer:
+  obstacle_range: 6 #障碍物距离,如果机器人检测到一个距离小于2#6.5的障碍物，就会将这个障碍物引入到代价地图中
+  raytrace_range: 23 #传感器的最大探测距离,用于在机器人运动过程中，实时清除代价地图中的障碍物，并更新可移动的自由空间数据#5
+  robot_radius: 0.335 #圆形机器人的半径大小 
+#footprint: [[0.28, 0.28], [0.28, -0.28], [-0.28, -0.28], [-0.28, 0.28]]
+#footprint: [[0.20, 0.14], [0.20, -0.14], [-0.20, -0.14], [-0.20, 0.14]]
+#footprint_padding: 0.015 
+#inflation_radius: 0.50 # 0.35 #机器人与障碍物之间必须保持的最小距离 
+  max_obstacle_height: 10 #传感器读取最大高度被视为有效，如果此参数的值比全局max_obstacle_height的值低，则会过滤掉此高度以上的点
+  min_obstacle_height: -0.2 #传感器读取最小高度被视为有效
+#cost_scaling_factor: 15
+  origin_z: 0.3
+#z_voxels: 3
+# z_resolution: 0.0
+  observation_sources: scan #设定导航功能包集所使用的传感器的话题名称
+  scan: {data_type: LaserScan, topic: lidar1/scan, marking: true, clearing: true, expected_update_rate: 0}
